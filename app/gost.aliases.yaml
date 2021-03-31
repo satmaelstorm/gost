@@ -10,8 +10,21 @@ packages:
   scany: github.com/georgysavva/scany
   fastjson: github.com/valyala/fastjson
   easyjson: github.com/mailru/easyjson
+  yamlv2: gopkg.in/yaml.v2
   yamlv3: gopkg.in/yaml.v3
   nan: github.com/kak-tus/nan
+  lru: github.com/hashicorp/golang-lru
+  mqcache: github.com/satmaelstorm/mqcache
+  ds: github.com/emirpasic/gods
+  rtree: github.com/tidwall/rtree
+  bitmap: github.com/satmaelstorm/bitmap
+  prometheus: github.com/prometheus/client_golang
+  mongo: go.mongodb.org/mongo-driver
+  gelf: gopkg.in/Graylog2/go-gelf.v2
+  sync: golang.org/x/sync
+  redisv7: github.com/go-redis/redis/v7
+  redisv8: github.com/go-redis/redis/v8
+  nats: github.com/nats-io/nats.go
 bundles:
   webserver:
     - fasthttp
@@ -22,4 +35,14 @@ bundles:
     - pgconn
     - pgx
     - scany
+  cli:
+    - cobra
+    - exviper
+  json:
+    - easyjson
+    - nan
+  yaml:
+    - yamlv3
+  redis:
+    - redisv8
 

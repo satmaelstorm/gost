@@ -1,0 +1,25 @@
+packages:
+  fasthttp: github.com/valyala/fasthttp
+  fastrouter: github.com/fasthttp/router
+  test: github.com/stretchr/testify
+  cobra: github.com/spf13/cobra
+  viper: github.com/spf13/viper
+  exviper: github.com/satmaelstorm/envviper
+  pgconn: github.com/jackc/pgconn
+  pgx: github.com/jackc/pgx/v4
+  scany: github.com/georgysavva/scany
+  fastjson: github.com/valyala/fastjson
+  easyjson: github.com/mailru/easyjson
+  yamlv3: gopkg.in/yaml.v3
+  nan: github.com/kak-tus/nan
+bundles:
+  webserver:
+    - fasthttp
+    - fastrouter
+    - test
+    - exviper
+  pgsql:
+    - pgconn
+    - pgx
+    - scany
+

@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/fatih/color"
 	"github.com/satmaelstorm/envviper"
 	"github.com/spf13/cobra"
 )
@@ -13,7 +14,12 @@ var rootCmd = &cobra.Command{
 	Short: "Go Start project - helper for start go projects",
 	Long: "Go Start (gost) - utility for help you to start go project without type some `go get ...` commands." +
 		"\nCommand has some aliases for popular and useful go modules, and has some aliases for bundles of modules",
-	// Run: func(cmd *cobra.Command, args []string) { },
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		if cfg.GetBool("no-color") {
+			color.NoColor = true
+		}
+	},
+		// Run: func(cmd *cobra.Command, args []string) { },
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -26,7 +32,8 @@ func init() {
 	cobra.OnInitialize(initConfig)
 	rootCmd.AddCommand(modCmd)
 	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "verbose output")
-	rootCmd.PersistentFlags().BoolP("softlaunch", "s", false, "soft launch - only print commands")
+	rootCmd.PersistentFlags().BoolP("soft-launch", "s", false, "soft launch - only print commands")
+	rootCmd.PersistentFlags().Bool("no-color", false, "disable color output")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -34,5 +41,6 @@ func initConfig() {
 	cfg = envviper.NewEnvViper()
 	cfg.SetEnvParamsSimple("GOST")
 	_ = cfg.BindPFlag("v", rootCmd.PersistentFlags().Lookup("verbose"))
-	_ = cfg.BindPFlag("s", rootCmd.PersistentFlags().Lookup("softlaunch"))
+	_ = cfg.BindPFlag("s", rootCmd.PersistentFlags().Lookup("soft-launch"))
+	_ = cfg.BindPFlag("no-color", rootCmd.PersistentFlags().Lookup("no-color"))
 }

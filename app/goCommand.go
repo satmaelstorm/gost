@@ -1,6 +1,7 @@
 package app
 
 import (
+	"github.com/fatih/color"
 	"io"
 	"os/exec"
 	"strings"
@@ -33,9 +34,7 @@ func execCommand(command *exec.Cmd, verboseLevel int, softLaunch bool) (string, 
 		return command.String(), nil
 	}
 	buf := new(strings.Builder)
-	if verboseLevel > 0 {
-		buf.WriteString("Executing:" + command.String() + "\n")
-	}
+	buf.WriteString(color.HiGreenString("Executing: ") + command.String() + "\n")
 	out, err := command.CombinedOutput()
 	if verboseLevel > 0 {
 		buf.WriteString(string(out) + "\n")
@@ -52,9 +51,9 @@ func execCommands(
 ) {
 	for _, cmd := range commands {
 		r, err := execCommand(cmd, verboseLevel, softLaunch)
-		if err != nil {
-			_, _ = errIo.Write([]byte(err.Error() + "\n"))
-		}
 		_, _ = outIo.Write([]byte(r + "\n"))
+		if err != nil {
+			_, _ = errIo.Write([]byte(color.HiRedString("[ERROR]: ") + err.Error() + "\n"))
+		}
 	}
 }

@@ -25,6 +25,7 @@ packages:
   redisv7: github.com/go-redis/redis/v7
   redisv8: github.com/go-redis/redis/v8
   nats: github.com/nats-io/nats.go
+  colorcli: github.com/fatih/color
 bundles:
   webserver:
     - fasthttp
@@ -38,6 +39,7 @@ bundles:
   cli:
     - cobra
     - exviper
+    - colorcli
   json:
     - easyjson
     - nan

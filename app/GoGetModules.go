@@ -22,11 +22,6 @@ func (g *GoGetModules) AsSoftLaunch() *GoGetModules {
 	return g
 }
 
-func (g *GoGetModules) AsExec() *GoGetModules {
-	g.isSoft = false
-	return g
-}
-
 func (g *GoGetModules) VerboseLevel(v int) *GoGetModules {
 	g.verboseLevel = v
 	return g

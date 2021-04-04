@@ -6,6 +6,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const (
+	NoColor    = "no-color"
+	Verbose    = "verbose"
+	SoftLaunch = "soft-launch"
+)
+
 var cfg *envviper.EnvViper
 
 // rootCmd represents the base command when called without any subcommands
@@ -19,7 +25,7 @@ var rootCmd = &cobra.Command{
 			color.NoColor = true
 		}
 	},
-		// Run: func(cmd *cobra.Command, args []string) { },
+	// Run: func(cmd *cobra.Command, args []string) { },
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -30,17 +36,18 @@ func Execute() error {
 
 func init() {
 	cobra.OnInitialize(initConfig)
-	rootCmd.AddCommand(modCmd)
-	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "verbose output")
-	rootCmd.PersistentFlags().BoolP("soft-launch", "s", false, "soft launch - only print commands")
-	rootCmd.PersistentFlags().Bool("no-color", false, "disable color output")
+	rootCmd.AddCommand(modCmd, startCmd)
+	rootCmd.PersistentFlags().BoolP(Verbose, "v", false, "verbose output")
+	rootCmd.PersistentFlags().BoolP(SoftLaunch, "s", false, "soft launch - only print commands")
+	rootCmd.PersistentFlags().Bool(NoColor, false, "disable color output")
 }
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
 	cfg = envviper.NewEnvViper()
 	cfg.SetEnvParamsSimple("GOST")
-	_ = cfg.BindPFlag("v", rootCmd.PersistentFlags().Lookup("verbose"))
-	_ = cfg.BindPFlag("s", rootCmd.PersistentFlags().Lookup("soft-launch"))
-	_ = cfg.BindPFlag("no-color", rootCmd.PersistentFlags().Lookup("no-color"))
+	_ = cfg.BindPFlag("v", rootCmd.PersistentFlags().Lookup(Verbose))
+	_ = cfg.BindPFlag("s", rootCmd.PersistentFlags().Lookup(SoftLaunch))
+	_ = cfg.BindPFlag(NoColor, rootCmd.PersistentFlags().Lookup(NoColor))
+	_ = cfg.BindPFlag(PackageName, startCmd.Flags().Lookup(PackageName))
 }

@@ -53,7 +53,7 @@ func execCommands(
 		r, err := execCommand(cmd, verboseLevel, softLaunch)
 		_, _ = outIo.Write([]byte(r + "\n"))
 		if err != nil {
-			_, _ = errIo.Write([]byte(color.HiRedString("[ERROR]: ") + err.Error() + "\n"))
+			writeError(errIo, err.Error())
 		}
 	}
 }

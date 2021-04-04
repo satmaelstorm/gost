@@ -9,7 +9,7 @@ import (
 var modCmd = &cobra.Command{
 	Use:   "mod",
 	Short: "Add go modules with aliases",
-	Long: "Add go modules with aliases",
+	Long:  "Add go modules with aliases. Aliases list:\n" + app.GetDefaultAliasesHelp(),
 	Run: func(cmd *cobra.Command, args []string) {
 		modCommand(cfg, args)
 	},

@@ -5,7 +5,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-
 var cfg *envviper.EnvViper
 
 // rootCmd represents the base command when called without any subcommands
@@ -34,6 +33,6 @@ func init() {
 func initConfig() {
 	cfg = envviper.NewEnvViper()
 	cfg.SetEnvParamsSimple("GOST")
-	cfg.BindPFlag("v", rootCmd.PersistentFlags().Lookup("verbose"))
-	cfg.BindPFlag("s", rootCmd.PersistentFlags().Lookup("softlaunch"))
+	_ = cfg.BindPFlag("v", rootCmd.PersistentFlags().Lookup("verbose"))
+	_ = cfg.BindPFlag("s", rootCmd.PersistentFlags().Lookup("softlaunch"))
 }

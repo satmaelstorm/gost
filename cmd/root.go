@@ -24,6 +24,10 @@ var rootCmd = &cobra.Command{
 		if cfg.GetBool("no-color") {
 			color.NoColor = true
 		}
+		if cfg.GetBool("s") {
+			_,_ = color.New(color.FgHiMagenta, color.Bold).Println("Use soft Launch")
+			_,_ = color.New(color.Reset).Println("")
+		}
 	},
 	// Run: func(cmd *cobra.Command, args []string) { },
 }

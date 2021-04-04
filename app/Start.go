@@ -1,9 +1,13 @@
 package app
 
 import (
+	"github.com/fatih/color"
 	"io"
 	"os"
+	"regexp"
 )
+
+var rePackageName = regexp.MustCompile(`^[A-Za-z][-._\w]*$`)
 
 func StartCommand(
 	outIo io.Writer,
@@ -16,30 +20,37 @@ func StartCommand(
 		writeError(os.Stderr, "package-name is required")
 		return "", false
 	}
-	goPath := os.Getenv("GOPATH")
-	writeGreen(os.Stdout, "GOPATH: "+goPath)
+	if !rePackageName.MatchString(pn) {
+		writeError(os.Stderr, "package-name must be "+rePackageName.String())
+	}
 	wd, err := os.Getwd()
 	if err != nil {
 		writeError(os.Stderr, err.Error())
 		return "", false
 	}
-	newDir := goPath + "/src/" + pn
-	writeGreen(outIo, "Mkdir "+newDir)
+
 	if !isSoft {
-		err = os.Mkdir(newDir, 0755)
+		_,_ = outIo.Write([]byte(color.HiGreenString("Execute: ") + "mkdir " + pn + "\n"))
+		err = os.Mkdir(pn, 0755)
 		if err != nil {
 			writeError(os.Stderr, err.Error())
 			return "", false
 		}
+	} else {
+		_,_ = outIo.Write([]byte("mkdir " + pn + "\n"))
 	}
-	writeGreen(outIo, "Chdir "+newDir)
+
 	if !isSoft {
-		err = os.Chdir(newDir)
+		_,_ = outIo.Write([]byte(color.HiGreenString("Execute: ") + "chdir " + pn + "\n"))
+		err = os.Chdir(pn)
 		if err != nil {
 			writeError(os.Stderr, err.Error())
 			return "", false
 		}
+	} else {
+		_,_ = outIo.Write([]byte("chdir " + pn + "\n"))
 	}
+
 	r, err := execCommand(goMod("init"), verboseLevel, isSoft)
 	_, _ = outIo.Write([]byte(r + "\n"))
 	if err != nil {

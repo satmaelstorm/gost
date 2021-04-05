@@ -30,25 +30,25 @@ func StartCommand(
 	}
 
 	if !isSoft {
-		_,_ = outIo.Write([]byte(color.HiGreenString("Execute: ") + "mkdir " + pn + "\n"))
+		_, _ = outIo.Write([]byte(color.HiGreenString("Execute: ") + "mkdir " + pn + "\n"))
 		err = os.Mkdir(pn, 0755)
 		if err != nil {
 			writeError(os.Stderr, err.Error())
 			return "", false
 		}
 	} else {
-		_,_ = outIo.Write([]byte("mkdir " + pn + "\n"))
+		_, _ = outIo.Write([]byte("mkdir " + pn + "\n"))
 	}
 
 	if !isSoft {
-		_,_ = outIo.Write([]byte(color.HiGreenString("Execute: ") + "chdir " + pn + "\n"))
+		_, _ = outIo.Write([]byte(color.HiGreenString("Execute: ") + "chdir " + pn + "\n"))
 		err = os.Chdir(pn)
 		if err != nil {
 			writeError(os.Stderr, err.Error())
 			return "", false
 		}
 	} else {
-		_,_ = outIo.Write([]byte("chdir " + pn + "\n"))
+		_, _ = outIo.Write([]byte("chdir " + pn + "\n"))
 	}
 
 	r, err := execCommand(goMod("init"), verboseLevel, isSoft)

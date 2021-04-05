@@ -1,24 +1,60 @@
 # Go Starter (gost)
 
 The package is designed to quickly start new projects on go.
+## Common supported flags
+`-v` - verbose output
 
-Go Start (gost) - utility for help you to start go project without type some `go get ...` commands.
+`-s` - soft launch
 
-Command has some aliases for popular and useful go modules, and has some aliases for bundles of modules
+`--no-color` - disable colored output
+## Supported commands
+### mod
+Do `go get -u` commands with use of aliases and bundles of aliases. 
 
-Usage:
-gost [command]
+Usage: `gost mod module1 module2 ...`
 
+Sample (with soft launch):
+```bash
+gost mod webserver -s
+    
+Use soft Launch
 
-Available Commands:
-1. help        Help about any command
-2. mod         Add go modules with aliases
-3. start       Create new project and load modules
+/usr/local/go/bin/go get -u github.com/valyala/fasthttp
+/usr/local/go/bin/go get -u github.com/fasthttp/router
+/usr/local/go/bin/go get -u github.com/stretchr/testify
+/usr/local/go/bin/go get -u github.com/satmaelstorm/envviper
+/usr/local/go/bin/go mod download
+```
+If there is strictly one `/` in the name of the module - it is perceived as a github module:
+```bash
+gost mod tidwall/rtree
+Use soft Launch
 
-Flags:
-1. -h, --help          help for gost
-2. --no-color      disable color output
-3. -s, --soft-launch   soft launch - only print commands
-4. -v, --verbose       verbose output
+/usr/local/go/bin/go get -u github.com/tidwall/rtree
+/usr/local/go/bin/go mod download
+```
+But gost recognize `gopkg.in` and `golang.org`:
+```bash
+gost mod gopkg.in/yaml.v1 -s
+Use soft Launch
 
-Use "gost [command] --help" for more information about a command.
+/usr/local/go/bin/go get -u gopkg.in/yaml.v1
+/usr/local/go/bin/go mod download
+```
+Names with more than one `/` - are sent to go get unchanged:
+```bash
+gost mod gopkg.in/Graylog2/go-gelf.v1 -s
+Use soft Launch
+
+/usr/local/go/bin/go get -u gopkg.in/Graylog2/go-gelf.v1
+/usr/local/go/bin/go mod download
+```
+However, you can rewrite default aliases and bundles of aliases with your own - gost try to read 
+file `gost.aliases.yaml` in current directory to rewrite build-in aliases. Also two flags present:
+
+`--aliases` - file to full rewrite build-in aliases (include loaded from `gost.aliases.yaml`)
+
+`--aliases-add` - file to add and replace build-in aliases
+
+### start
+Starts new project in dir `--package-name` in current dir, do `mod init` and all, what do `gost mod` command.

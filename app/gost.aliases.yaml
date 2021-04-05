@@ -16,8 +16,6 @@ packages:
   lru: github.com/hashicorp/golang-lru
   mqcache: github.com/satmaelstorm/mqcache
   ds: github.com/emirpasic/gods
-  rtree: github.com/tidwall/rtree
-  bitmap: github.com/satmaelstorm/bitmap
   prometheus: github.com/prometheus/client_golang
   mongo: go.mongodb.org/mongo-driver
   gelf: gopkg.in/Graylog2/go-gelf.v2

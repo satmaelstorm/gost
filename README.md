@@ -50,7 +50,7 @@ Use soft Launch
 /usr/local/go/bin/go mod download
 ```
 However, you can rewrite default aliases and bundles of aliases with your own - gost try to read 
-file `gost.aliases.yaml` in current directory to rewrite build-in aliases. Also two flags present:
+file `gost.aliases.yaml` in a current directory to rewrite build-in aliases. Also two flags present:
 
 `--aliases` - file to full rewrite build-in aliases (include loaded from `gost.aliases.yaml`)
 

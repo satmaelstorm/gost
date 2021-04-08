@@ -41,7 +41,7 @@ func (g *GoGetModules) run(names []string, aliases ModAliases) {
 	for _, n := range names {
 		err := g.goGetFull(n, aliases)
 		if err != nil {
-			_, _ = g.stdOut.Write([]byte(err.Error() + "\n"))
+			_, _ = g.errorOut.Write([]byte(err.Error() + "\n"))
 		}
 	}
 }
@@ -87,7 +87,7 @@ func (g *GoGetModules) goGetAliases(name, ver string, aliases ModAliases) error 
 	if bundle, ok := aliases.Bundles[name]; ok {
 		if len(bundle) > 0 {
 			for _, pkg := range bundle {
-				err := g.goGetAliases(string(pkg), "", aliases)
+				err := g.goGetFull(string(pkg), aliases)
 				if err != nil {
 					return err
 				}

@@ -1,4 +1,8 @@
 # Go Starter (gost)
+[![Go Report](https://goreportcard.com/badge/github.com/satmaelstorm/gost)](https://goreportcard.com/report/github.com/satmaelstorm/gost)
+[![GoDoc](https://godoc.org/github.com/satmaelstorm/gost?status.svg)](http://godoc.org/github.com/satmaelstorm/gost)
+[![Coverage Status](https://coveralls.io/repos/github/satmaelstorm/gost/badge.svg?branch=master)](https://coveralls.io/github/satmaelstorm/gost?branch=master)
+![Go](https://github.com/satmaelstorm/gost/workflows/Go/badge.svg)
 
 The package is designed to quickly start new projects on go.
 ## Common supported flags

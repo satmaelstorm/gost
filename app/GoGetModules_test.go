@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-const aliasesConfig = `
+const testAliasesConfig = `
 packages:
   fasthttp: github.com/valyala/fasthttp
   fastrouter: github.com/fasthttp/router
@@ -29,7 +29,7 @@ func TestGoGetModules(t *testing.T) {
 }
 
 func (s *goGetModulesTestSuite) SetupSuite() {
-	a, err := getAliasesByBytes([]byte(aliasesConfig))
+	a, err := getAliasesByBytes([]byte(testAliasesConfig))
 	if err != nil {
 		s.T().Fatal(err.Error())
 	}

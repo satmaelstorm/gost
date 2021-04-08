@@ -4,7 +4,11 @@
 [![Coverage Status](https://coveralls.io/repos/github/satmaelstorm/gost/badge.svg?branch=master)](https://coveralls.io/github/satmaelstorm/gost?branch=master)
 ![Go](https://github.com/satmaelstorm/gost/workflows/Go/badge.svg)
 
-The package is designed to quickly start new projects on go.
+The command is designed to quickly start new projects on go.
+## Install
+Require go 1.16.0 or later, to install run:
+
+`go get -u github.com/satmaelstorm/gost`
 ## Common supported flags
 `-v` - verbose output
 

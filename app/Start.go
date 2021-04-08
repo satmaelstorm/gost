@@ -9,6 +9,7 @@ import (
 
 var rePackageName = regexp.MustCompile(`^[A-Za-z][-._\w]*$`)
 
+//StartCommand - executes gost start command
 func StartCommand(
 	outIo io.Writer,
 	errIo io.Writer,

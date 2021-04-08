@@ -7,10 +7,15 @@ import (
 )
 
 const (
-	NoColor    = "no-color"
-	Verbose    = "verbose"
+	//no color flag name
+	NoColor = "no-color"
+	//verbose flag full name
+	Verbose = "verbose"
+	//soft launch flag full name
 	SoftLaunch = "soft-launch"
-	Aliases    = "aliases"
+	//aliases parameter name
+	Aliases = "aliases"
+	//additional aliases parameter name
 	AliasesAdd = "aliases-add"
 )
 

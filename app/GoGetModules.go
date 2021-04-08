@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+//GoGetModules - executor for gost mod command
 type GoGetModules struct {
 	visitedAliases map[string]bool
 	isSoft         bool
@@ -17,16 +18,19 @@ type GoGetModules struct {
 	stdOut         io.Writer
 }
 
+//AsSoftLaunch - prepare executor to soft launch
 func (g *GoGetModules) AsSoftLaunch() *GoGetModules {
 	g.isSoft = true
 	return g
 }
 
+//VerboseLevel - set verbose level of output (0 or 1)
 func (g *GoGetModules) VerboseLevel(v int) *GoGetModules {
 	g.verboseLevel = v
 	return g
 }
 
+//Run - runs executor
 func (g *GoGetModules) Run(names []string, aliases ModAliases) {
 	g.errorOut = os.Stderr
 	g.stdOut = os.Stdout

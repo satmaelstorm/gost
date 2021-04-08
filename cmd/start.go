@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+//package name parameter name
 const PackageName = "package-name"
 
 var startCmd = &cobra.Command{

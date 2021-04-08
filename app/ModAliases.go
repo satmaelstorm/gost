@@ -1,7 +1,7 @@
 package app
 
 import (
-	_ "embed"
+	_ "embed" //golint: import embed
 	"errors"
 	"fmt"
 	"gopkg.in/yaml.v3"
@@ -23,7 +23,7 @@ const defaultFileName = "gost.aliases.yaml"
 var defAliases []byte
 var defModAliases ModAliases
 
-type ExecutorFunc func(string, int) error
+//PackageName - type for Package Names
 type PackageName string
 
 func (p PackageName) getPackageType() int {
@@ -44,6 +44,7 @@ func (p PackageName) getPackageType() int {
 	}
 }
 
+//ModAliases - represents aliases and bundles set
 type ModAliases struct {
 	Packages map[string]string        `yaml:"packages"`
 	Bundles  map[string][]PackageName `yaml:"bundles"`
@@ -74,10 +75,12 @@ func getAliasesByBytes(str []byte) (ModAliases, error) {
 	return result, err
 }
 
+//GetAliases - return current default aliases and bundles set
 func GetAliases() ModAliases {
 	return defModAliases
 }
 
+//GetDefaultAliasesH - return string of default aliases and bundles set for description of commands
 func GetDefaultAliasesHelp() string {
 	return string(defAliases)
 }
@@ -100,6 +103,7 @@ func getAliasesByFile(fileName string, isValidate bool) (ModAliases, error) {
 	return ma, nil
 }
 
+//LoadAliasesFromFlags - load aliases and bundles set from parameters from command line
 func LoadAliasesFromFlags(outIo, errIo io.Writer, aliasesFile, addAliasesFile string) bool {
 	if aliasesFile != "" {
 		ma, err := getAliasesByFile(aliasesFile, true)
@@ -108,7 +112,7 @@ func LoadAliasesFromFlags(outIo, errIo io.Writer, aliasesFile, addAliasesFile st
 			return false
 		}
 		defModAliases = ma
-		_,_ = outIo.Write([]byte("Load aliases from " + aliasesFile))
+		_, _ = outIo.Write([]byte("Load aliases from " + aliasesFile))
 	}
 	if addAliasesFile != "" {
 		ma, err := getAliasesByFile(addAliasesFile, false)
@@ -122,7 +126,7 @@ func LoadAliasesFromFlags(outIo, errIo io.Writer, aliasesFile, addAliasesFile st
 			return false
 		}
 		defModAliases = newMa
-		_,_ = outIo.Write([]byte("Load additional aliases from " + addAliasesFile))
+		_, _ = outIo.Write([]byte("Load additional aliases from " + addAliasesFile))
 	}
 	return true
 }
@@ -147,6 +151,7 @@ func (m ModAliases) validate() error {
 	return nil
 }
 
+//Glue - glue two ModAliases in one
 func (m ModAliases) Glue(src ModAliases) (ModAliases, error) {
 	for name, pkg := range src.Packages {
 		m.Packages[name] = pkg

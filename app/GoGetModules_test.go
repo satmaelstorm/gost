@@ -20,7 +20,7 @@ bundles:
 
 type goGetModulesTestSuite struct {
 	suite.Suite
-	g *GoGetModules
+	g       *GoGetModules
 	aliases ModAliases
 }
 
@@ -69,14 +69,14 @@ func (s *goGetModulesTestSuite) TestNameWithVersion() {
 }
 
 func (s *goGetModulesTestSuite) TestGetNameAndVersion() {
-	var r1,r2 string
-	r1,r2 = s.g.getNameAndVersion("")
+	var r1, r2 string
+	r1, r2 = s.g.getNameAndVersion("")
 	s.Equal(r1, "")
 	s.Equal(r2, "")
-	r1,r2 = s.g.getNameAndVersion("satmaelstorm/bitmap")
+	r1, r2 = s.g.getNameAndVersion("satmaelstorm/bitmap")
 	s.Equal(r1, "satmaelstorm/bitmap")
 	s.Equal(r2, "")
-	r1,r2 = s.g.getNameAndVersion("satmaelstorm/bitmap@v1.2.0")
+	r1, r2 = s.g.getNameAndVersion("satmaelstorm/bitmap@v1.2.0")
 	s.Equal(r1, "satmaelstorm/bitmap")
 	s.Equal(r2, "v1.2.0")
 }
@@ -95,9 +95,9 @@ func (s *goGetModulesTestSuite) TestVerboseLevel() {
 
 func (s *goGetModulesTestSuite) TestGoGetAliases() {
 	var err error
-	err = s.g.goGetAliases("bitmap","", s.aliases)
+	err = s.g.goGetAliases("bitmap", "", s.aliases)
 	s.NotNil(err)
-	err = s.g.goGetAliases("bitmap","", s.aliases)
+	err = s.g.goGetAliases("bitmap", "", s.aliases)
 	s.Nil(err)
 	s.Equal(0, len(s.g.commands))
 	err = s.g.goGetAliases("fasthttp", "v1.20.0", s.aliases)
@@ -150,5 +150,3 @@ func (s *goGetModulesTestSuite) TestRun() {
 	s.Contains(s.g.commands[2].String(), "go get -u github.com/satmaelstorm/bitmap@v1.2.0")
 	s.Contains(s.g.commands[3].String(), "go get -u bitbucket.org/satmaelstorm/bitmap")
 }
-
-

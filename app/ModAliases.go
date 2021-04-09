@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v3"
 	"io"
-	"io/ioutil"
 	"os"
 	"strings"
 )
@@ -51,7 +50,7 @@ type ModAliases struct {
 }
 
 func init() {
-	f, err := ioutil.ReadFile(defaultFileName)
+	f, err := os.ReadFile(defaultFileName)
 	if err == nil {
 		fmt.Println("Load aliases from " + defaultFileName)
 		defAliases = f
@@ -86,7 +85,7 @@ func GetDefaultAliasesHelp() string {
 }
 
 func getAliasesByFile(fileName string, isValidate bool) (ModAliases, error) {
-	f, err := ioutil.ReadFile(fileName)
+	f, err := os.ReadFile(fileName)
 	if err != nil {
 		return ModAliases{}, err
 	}

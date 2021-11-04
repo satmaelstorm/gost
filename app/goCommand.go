@@ -72,7 +72,7 @@ func execCommandsParallel(
 	ctx, cancel := context.WithCancel(context.Background())
 	wg := new(sync.WaitGroup)
 	wg.Add(threads)
-	outChan := make(chan *exec.Cmd, threads)
+	outChan := make(chan *exec.Cmd)
 	writeGreen(outIo, "Start workers")
 	for i := 0; i < threads; i++ {
 		go execWorker(ctx, i, outChan, wg, outIo, errIo, verboseLevel, softLaunch)

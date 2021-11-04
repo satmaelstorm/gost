@@ -1,10 +1,14 @@
+Tired of remembering the names of the libraries you need on github? Tired of writing long commands like `go get -u github.com/gomodule/redigo/redis`? 
+Then the `gost` is for you!
+
+
 # Go Starter (gost)
 [![Go Report](https://goreportcard.com/badge/github.com/satmaelstorm/gost)](https://goreportcard.com/report/github.com/satmaelstorm/gost)
 [![GoDoc](https://godoc.org/github.com/satmaelstorm/gost?status.svg)](http://godoc.org/github.com/satmaelstorm/gost)
 [![Coverage Status](https://coveralls.io/repos/github/satmaelstorm/gost/badge.svg?branch=master)](https://coveralls.io/github/satmaelstorm/gost?branch=master)
 ![Go](https://github.com/satmaelstorm/gost/workflows/Go/badge.svg)
 
-The command is designed to quickly start new projects on go.
+The command allows you to assign aliases for popular libraries and not remember long repository names.
 ## Install
 Require go 1.16.0 or later, to install run:
 
@@ -65,6 +69,9 @@ file `gost.aliases.yaml` in a current directory to rewrite build-in aliases. Als
 `--aliases-add` - file to add and replace build-in aliases
 
 Or you can export env `GOST_ALIASES` to rewrite build-in aliases (equivalent to `--aliases`)
+
+You can run `ghost mod` with` --threads = N` for multithreading, but then the order in which 
+the `go get` is executed is not guaranteed, there may be side effects.
 
 ### start
 Starts new project in dir `--package-name` in current dir, do `mod init` and all, what do `gost mod` command.

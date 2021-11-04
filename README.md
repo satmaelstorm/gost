@@ -8,7 +8,7 @@ The command is designed to quickly start new projects on go.
 ## Install
 Require go 1.16.0 or later, to install run:
 
-`go get -u github.com/satmaelstorm/gost`
+`go install github.com/satmaelstorm/gost@latest`
 ## Common supported flags
 `-v` - verbose output
 

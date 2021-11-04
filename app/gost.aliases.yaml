@@ -26,6 +26,12 @@ packages:
   redigo: github.com/gomodule/redigo/redis
   nats: github.com/nats-io/nats.go
   colorcli: github.com/fatih/color
+  gorm: gorm.io/gorm
+  gormpgdriver: gorm.io/driver/postgres
+  sqlmock: github.com/DATA-DOG/go-sqlmock
+  jsoniter: github.com/json-iterator/go
+  gjson: github.com/tidwall/gjson
+  sjson: github.com/tidwall/sjson
 bundles:
   webserver:
     - fasthttp
@@ -50,5 +56,8 @@ bundles:
   mongodb:
     - mongo
     - greenleaf
+  gormpg:
+    - gorm
+    - gormpgdriver
 
 

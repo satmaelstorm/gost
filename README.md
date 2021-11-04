@@ -64,5 +64,7 @@ file `gost.aliases.yaml` in a current directory to rewrite build-in aliases. Als
 
 `--aliases-add` - file to add and replace build-in aliases
 
+Or you can export env `GOST_ALIASES` to rewrite build-in aliases (equivalent to `--aliases`)
+
 ### start
 Starts new project in dir `--package-name` in current dir, do `mod init` and all, what do `gost mod` command.

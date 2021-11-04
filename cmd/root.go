@@ -17,6 +17,8 @@ const (
 	Aliases = "aliases"
 	//additional aliases parameter name
 	AliasesAdd = "aliases-add"
+	//executor threads
+	Threads = "threads"
 )
 
 var cfg *envviper.EnvViper

@@ -1,10 +1,13 @@
 package app
 
 import (
+	"context"
 	"github.com/fatih/color"
 	"io"
 	"os/exec"
+	"strconv"
 	"strings"
+	"sync"
 )
 
 func goCommand(args ...string) *exec.Cmd {
@@ -54,6 +57,65 @@ func execCommands(
 		_, _ = outIo.Write([]byte(r + "\n"))
 		if err != nil {
 			writeError(errIo, err.Error())
+		}
+	}
+}
+
+func execCommandsParallel(
+	outIo io.Writer,
+	errIo io.Writer,
+	commands []*exec.Cmd,
+	verboseLevel int,
+	softLaunch bool,
+	threads int,
+) {
+	ctx, cancel := context.WithCancel(context.Background())
+	wg := new(sync.WaitGroup)
+	wg.Add(threads)
+	outChan := make(chan *exec.Cmd, threads)
+	writeGreen(outIo, "Start workers")
+	for i := 0; i < threads; i++ {
+		go execWorker(ctx, i, outChan, wg, outIo, errIo, verboseLevel, softLaunch)
+	}
+	writeGreen(outIo, "Workers started")
+	lastCommand := make([]*exec.Cmd, 1)
+	for _, cmd := range commands {
+		if strings.HasSuffix(cmd.String(), "go mod download") {
+			lastCommand[0] = cmd
+		} else {
+			outChan <- cmd
+		}
+	}
+	cancel()
+	wg.Wait()
+	if lastCommand[0] != nil {
+		execCommands(outIo, errIo, lastCommand, verboseLevel, softLaunch)
+	}
+	writeGreen(outIo, "Execution completed")
+}
+
+func execWorker(
+	ctx context.Context,
+	workerNum int,
+	inChan <-chan *exec.Cmd,
+	wg *sync.WaitGroup,
+	outIo io.Writer,
+	errIo io.Writer,
+	verboseLevel int,
+	softLaunch bool,
+) {
+	defer wg.Done()
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case cmd := <-inChan:
+			writeGreen(outIo, "Executing by worker #" + strconv.Itoa(workerNum)+" "+cmd.String())
+			r, err := execCommand(cmd, verboseLevel, softLaunch)
+			_, _ = outIo.Write([]byte(r + "\n"))
+			if err != nil {
+				writeError(errIo, err.Error())
+			}
 		}
 	}
 }

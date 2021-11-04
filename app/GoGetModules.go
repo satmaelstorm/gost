@@ -16,6 +16,15 @@ type GoGetModules struct {
 	commands       []*exec.Cmd
 	errorOut       io.Writer
 	stdOut         io.Writer
+	threads        int
+}
+
+//SetThreads - set number of threads for executor
+func (g *GoGetModules) SetThreads(threads int) {
+	if threads < 0 {
+		g.threads = 1
+	}
+	g.threads = threads
 }
 
 //AsSoftLaunch - prepare executor to soft launch
@@ -37,7 +46,11 @@ func (g *GoGetModules) Run(names []string, aliases ModAliases) {
 	g.run(names, aliases)
 	modCmd := goMod("download")
 	g.commands = append(g.commands, modCmd)
-	execCommands(g.stdOut, g.errorOut, g.commands, g.verboseLevel, g.isSoft)
+	if g.threads < 2 {
+		execCommands(g.stdOut, g.errorOut, g.commands, g.verboseLevel, g.isSoft)
+	} else {
+		execCommandsParallel(g.stdOut, g.errorOut, g.commands, g.verboseLevel, g.isSoft, g.threads)
+	}
 }
 
 func (g *GoGetModules) run(names []string, aliases ModAliases) {

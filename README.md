@@ -19,9 +19,32 @@ Require go 1.16.0 or later, to install run:
 `-s` - soft launch
 
 `--no-color` - disable colored output
+
+## Rewrite Aliases
+You can export env `GOST_ALIASES` to rewrite build-in aliases 
+and export `GOST_ADD_ALIASES` to add and replace build-in aliases. For example: `GOST_ALIASES="/home/user/gost.aliases.yaml" ./gost mod -s webserver`
+
+You can rewrite default aliases and bundles of aliases with your own - gost try to read 
+file `gost.aliases.yaml` in a current directory to rewrite build-in aliases. 
+
+Also two flags present:
+
+`--aliases` - file to full rewrite build-in aliases (include loaded from `gost.aliases.yaml`)
+
+`--aliases-add` - file to add and replace build-in aliases
+
+Reading and replacing order:
+1. From env
+2. From file in current directory
+3. From flags
+ 
+## Multi-threads (experimental)
+You can run `ghost mod` with` --threads = N` for multithreading, but then the order in which 
+the `go get` is executed is not guaranteed, there may be side effects.
+
 ## Supported commands
 ### mod
-Do `go get -u` commands with use of aliases and bundles of aliases. 
+Do `go get -u` commands with use of aliases and bundles of aliases.
 
 Usage: `gost mod module1 module2 ...`
 
@@ -61,17 +84,6 @@ Use soft Launch
 /usr/local/go/bin/go get -u gopkg.in/Graylog2/go-gelf.v1
 /usr/local/go/bin/go mod download
 ```
-However, you can rewrite default aliases and bundles of aliases with your own - gost try to read 
-file `gost.aliases.yaml` in a current directory to rewrite build-in aliases. Also two flags present:
-
-`--aliases` - file to full rewrite build-in aliases (include loaded from `gost.aliases.yaml`)
-
-`--aliases-add` - file to add and replace build-in aliases
-
-Or you can export env `GOST_ALIASES` to rewrite build-in aliases (equivalent to `--aliases`)
-
-You can run `ghost mod` with` --threads = N` for multithreading, but then the order in which 
-the `go get` is executed is not guaranteed, there may be side effects.
 
 ### start
 Starts new project in dir `--package-name` in current dir, do `mod init` and all, what do `gost mod` command.

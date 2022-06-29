@@ -7,6 +7,7 @@ import (
 )
 
 const (
+	Version = "v1.2.0"
 	//no color flag name
 	NoColor = "no-color"
 	//verbose flag full name
@@ -27,7 +28,7 @@ var cfg *envviper.EnvViper
 var rootCmd = &cobra.Command{
 	Use:   "gost",
 	Short: "Go Start project - helper for start go projects",
-	Long: "Go Start (gost) - utility for help you to start go project without type some `go get ...` commands." +
+	Long: "Go Start (gost) " + Version + " - utility for help you to start go project without type some `go get ...` commands." +
 		"\nCommand has some aliases for popular and useful go modules, and has some aliases for bundles of modules",
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		if cfg.GetBool("no-color") {
@@ -58,7 +59,6 @@ func init() {
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
 	cfg = envviper.NewEnvViper()
-	cfg.SetEnvParamsSimple("GOST")
 	_ = cfg.BindPFlag("v", rootCmd.PersistentFlags().Lookup(Verbose))
 	_ = cfg.BindPFlag("s", rootCmd.PersistentFlags().Lookup(SoftLaunch))
 	_ = cfg.BindPFlag(NoColor, rootCmd.PersistentFlags().Lookup(NoColor))

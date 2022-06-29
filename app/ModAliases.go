@@ -17,6 +17,8 @@ const (
 )
 
 const defaultFileName = "gost.aliases.yaml"
+const envAliasesName = "GOST_ALIASES"
+const envAliasesAddName = "GOST_ADD_ALIASES"
 
 //go:embed gost.aliases.yaml
 var defAliases []byte
@@ -50,9 +52,10 @@ type ModAliases struct {
 }
 
 func init() {
+	loadAliasesFromEnv()
 	f, err := os.ReadFile(defaultFileName)
 	if err == nil {
-		fmt.Println("Load aliases from " + defaultFileName)
+		fmt.Println("Rewrite aliases from " + defaultFileName)
 		defAliases = f
 	}
 	ma, err := getAliasesByBytes(defAliases)
@@ -65,6 +68,32 @@ func init() {
 	if err != nil {
 		fmt.Println("[ERROR]: " + err.Error())
 		os.Exit(1)
+	}
+	loadAddAliasesFromEnv()
+}
+
+func loadAliasesFromEnv() {
+	if fn, ok := os.LookupEnv(envAliasesName); ok {
+		f, err := os.ReadFile(fn)
+		if err == nil {
+			fmt.Println("Rewrite aliases by env " + envAliasesName + " from file " + fn)
+			defAliases = f
+		}
+	}
+}
+
+func loadAddAliasesFromEnv() {
+	if fn, ok := os.LookupEnv(envAliasesAddName); ok {
+		ma, err := getAliasesByFile(fn, false)
+		if err != nil {
+			return
+		}
+		newMa, err := defModAliases.Glue(ma)
+		if err != nil {
+			return
+		}
+		defModAliases = newMa
+		fmt.Println("Add aliases from env " + envAliasesAddName + " from file " + fn)
 	}
 }
 
@@ -79,7 +108,7 @@ func GetAliases() ModAliases {
 	return defModAliases
 }
 
-//GetDefaultAliasesH - return string of default aliases and bundles set for description of commands
+//GetDefaultAliasesHelp - return string of default aliases and bundles set for description of commands
 func GetDefaultAliasesHelp() string {
 	return string(defAliases)
 }
@@ -111,7 +140,7 @@ func LoadAliasesFromFlags(outIo, errIo io.Writer, aliasesFile, addAliasesFile st
 			return false
 		}
 		defModAliases = ma
-		_, _ = outIo.Write([]byte("Load aliases from " + aliasesFile))
+		_, _ = outIo.Write([]byte("Load aliases from " + aliasesFile + "\n"))
 	}
 	if addAliasesFile != "" {
 		ma, err := getAliasesByFile(addAliasesFile, false)

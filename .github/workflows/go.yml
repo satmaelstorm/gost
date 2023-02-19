@@ -35,13 +35,13 @@ jobs:
         go test -v -covermode=count -coverprofile=coverage.out . github.com/satmaelstorm/gost/app github.com/satmaelstorm/gost/cmd
 
     - name: Convert coverage to lcov
-      uses: jandelgado/gcov2lcov-action@v1.0.0
+      uses: jandelgado/gcov2lcov-action@v1.0.9
       with:
         infile: coverage.out
         outfile: coverage.lcov
 
     - name: Coveralls GitHub Action
-      uses: coverallsapp/github-action@v1.0.1
+      uses: coverallsapp/github-action@v1.1.2
       with:
         github-token: ${{ secrets.github_token }}
         path-to-lcov: coverage.lcov

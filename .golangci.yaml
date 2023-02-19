@@ -135,6 +135,9 @@ linters-settings:
     # enable or disable analyzers by name
     enable:
       - atomicalign
+      - copylocks
+      - fieldalignment
+      - unmarshal
     enable-all: false
     disable:
       - shadow
@@ -190,14 +193,12 @@ linters:
     - goconst
     - gocyclo
     - depguard
-    - maligned
     - misspell
     - prealloc
     - whitespace
     - staticcheck
-    - varcheck
     - ineffassign
-    - structcheck
+    - unused
   disable-all: true
   fast: true
 

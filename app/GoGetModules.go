@@ -8,18 +8,18 @@ import (
 	"strings"
 )
 
-//GoGetModules - executor for gost mod command
+// GoGetModules - executor for gost mod command
 type GoGetModules struct {
-	visitedAliases map[string]bool
-	isSoft         bool
-	verboseLevel   int
-	commands       []*exec.Cmd
 	errorOut       io.Writer
 	stdOut         io.Writer
+	visitedAliases map[string]bool
+	commands       []*exec.Cmd
+	isSoft         bool
+	verboseLevel   int
 	threads        int
 }
 
-//SetThreads - set number of threads for executor
+// SetThreads - set number of threads for executor
 func (g *GoGetModules) SetThreads(threads int) {
 	if threads < 0 {
 		g.threads = 1
@@ -27,19 +27,19 @@ func (g *GoGetModules) SetThreads(threads int) {
 	g.threads = threads
 }
 
-//AsSoftLaunch - prepare executor to soft launch
+// AsSoftLaunch - prepare executor to soft launch
 func (g *GoGetModules) AsSoftLaunch() *GoGetModules {
 	g.isSoft = true
 	return g
 }
 
-//VerboseLevel - set verbose level of output (0 or 1)
+// VerboseLevel - set verbose level of output (0 or 1)
 func (g *GoGetModules) VerboseLevel(v int) *GoGetModules {
 	g.verboseLevel = v
 	return g
 }
 
-//Run - runs executor
+// Run - runs executor
 func (g *GoGetModules) Run(names []string, aliases ModAliases) {
 	g.errorOut = os.Stderr
 	g.stdOut = os.Stdout
